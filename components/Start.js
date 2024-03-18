@@ -97,6 +97,10 @@ const Start = ({ navigation }) => {
 
                     {/*chat button */}
                     <TouchableOpacity
+                        accessible={true}
+                        accessibilityLabel='Entre your space'
+                        accessibilityHint='Start the chat'
+                        accessibilityRole='button'
                         style={styles.entreButton}
                         onPress={() =>
                             navigation.navigate('Chat', {
