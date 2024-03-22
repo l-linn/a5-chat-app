@@ -7,39 +7,46 @@ import {
     Platform,
 } from 'react-native';
 import { GiftedChat, Bubble } from 'react-native-gifted-chat';
+import {
+    collection,
+    addDoc,
+    onSnapshot,
+    orderBy,
+    query,
+} from 'firebase/firestore';
 
-const Chat = ({ route, navigation }) => {
-    const { name, backgroundColor } = route.params;
+const Chat = ({ route, navigation, db }) => {
+    const { name, backgroundColor, id } = route.params;
     const [messages, setMessages] = useState([]);
     const onSend = (newMessages) => {
         setMessages((previousMessages) =>
             GiftedChat.append(previousMessages, newMessages)
         );
     };
+
     useEffect(() => {
         navigation.setOptions({ title: name });
-    }, []);
 
-    useEffect(() => {
-        setMessages([
-            {
-                _id: 1,
-                text: 'Hello developer, you have entred your space.',
-                createdAt: new Date(),
-                user: {
-                    _id: 2,
-                    name: 'React Native',
-                    avatar: 'https://placebear.com/140/140',
-                },
-            },
+        const q = query(
+            collection(db, 'messages'),
+            orderBy('createdAt', 'desc')
+        );
+        const unsubMessages = onSnapshot(q, (docs) => {
+            let newMessages = [];
+            docs.forEach((doc) => {
+                newMessages.push({
+                    id: doc.id,
+                    ...doc.data(),
+                    createdAt: new Date(doc.data().createdAt.toMillis()),
+                });
+            });
+            setMessages(newMessages);
+        });
 
-            {
-                _id: 2,
-                text: 'This is a system message',
-                createdAt: new Date(),
-                system: true,
-            },
-        ]);
+        // Clean up code
+        return () => {
+            if (unsubMessages) unsubMessages();
+        };
     }, []);
 
     // Customise speech bubble
@@ -66,7 +73,8 @@ const Chat = ({ route, navigation }) => {
                 renderBubble={renderBubble}
                 onSend={(messages) => onSend(messages)}
                 user={{
-                    _id: 1,
+                    _id: id,
+                    name: name,
                 }}
             />
             {Platform.OS === 'android' ? (
