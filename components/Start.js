@@ -8,14 +8,33 @@ import {
     ImageBackground,
     Image,
     TouchableOpacity,
+    Alert,
 } from 'react-native';
 
+//get auth
+import { getAuth, signInAnonymously } from 'firebase/auth';
+
 const Start = ({ navigation }) => {
+    const auth = getAuth();
     const [name, setName] = useState('');
     const [selectedColor, setSelectedColor] = useState('');
     const image = require('../assets/BackgroundImage.png'); // Image background source
     const icon = require('../assets/icon.png');
 
+    const signInUser = () => {
+        signInAnonymously(auth)
+            .then((result) => {
+                navigation.navigate('Chat', {
+                    name: name,
+                    background: background,
+                    id: result.user.uid,
+                });
+                Alert.alert('Signed in Successfully!');
+            })
+            .catch((error) => {
+                Alert.alert('Unable to sign in, try later again.');
+            });
+    };
     const handleColorSelection = (color) => {
         setSelectedColor(color);
     };
@@ -102,12 +121,7 @@ const Start = ({ navigation }) => {
                         accessibilityHint='Start the chat'
                         accessibilityRole='button'
                         style={styles.entreButton}
-                        onPress={() =>
-                            navigation.navigate('Chat', {
-                                name: name,
-                                backgroundColor: selectedColor,
-                            })
-                        }
+                        onPress={signInUser}
                     >
                         <Text style={styles.enterSpaceButton}>
                             Entre your space
