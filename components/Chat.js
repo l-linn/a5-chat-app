@@ -1,4 +1,6 @@
 import { useState, useEffect } from 'react';
+import { GiftedChat, Bubble } from 'react-native-gifted-chat';
+
 import {
     StyleSheet,
     View,
@@ -6,7 +8,7 @@ import {
     KeyboardAvoidingView,
     Platform,
 } from 'react-native';
-import { GiftedChat, Bubble } from 'react-native-gifted-chat';
+
 import {
     collection,
     addDoc,
@@ -18,10 +20,9 @@ import {
 const Chat = ({ route, navigation, db }) => {
     const { name, backgroundColor, id } = route.params;
     const [messages, setMessages] = useState([]);
+
     const onSend = (newMessages) => {
-        setMessages((previousMessages) =>
-            GiftedChat.append(previousMessages, newMessages)
-        );
+        addDoc(collection(db, 'messages'), newMessages[0]);
     };
 
     useEffect(() => {
@@ -74,7 +75,7 @@ const Chat = ({ route, navigation, db }) => {
                 onSend={(messages) => onSend(messages)}
                 user={{
                     _id: id,
-                    name: name,
+                    name,
                 }}
             />
             {Platform.OS === 'android' ? (
