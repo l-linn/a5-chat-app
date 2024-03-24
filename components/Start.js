@@ -17,7 +17,9 @@ import { getAuth, signInAnonymously } from 'firebase/auth';
 const Start = ({ navigation }) => {
     const auth = getAuth();
     const [name, setName] = useState('');
+
     const [selectedColor, setSelectedColor] = useState('');
+
     const image = require('../assets/BackgroundImage.png'); // Image background source
     const icon = require('../assets/icon.png');
 
@@ -26,7 +28,7 @@ const Start = ({ navigation }) => {
             .then((result) => {
                 navigation.navigate('Chat', {
                     name: name,
-                    background: background,
+                    backgroundColor: selectedColor,
                     id: result.user.uid,
                 });
                 Alert.alert('Signed in Successfully!');
@@ -35,6 +37,7 @@ const Start = ({ navigation }) => {
                 Alert.alert('Unable to sign in, try later again.');
             });
     };
+
     const handleColorSelection = (color) => {
         setSelectedColor(color);
     };
