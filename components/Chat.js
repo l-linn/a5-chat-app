@@ -1,24 +1,16 @@
 import { useState, useEffect } from 'react';
-import MapView from 'react-native-maps';
-import CustomActions from './CustomActions';
+import { StyleSheet, View, KeyboardAvoidingView, Platform } from 'react-native';
 import { GiftedChat, Bubble, InputToolbar } from 'react-native-gifted-chat';
+import MapView from 'react-native-maps';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
-import {
-    StyleSheet,
-    View,
-    Text,
-    KeyboardAvoidingView,
-    Platform,
-} from 'react-native';
-
 import {
     collection,
     addDoc,
     onSnapshot,
-    orderBy,
     query,
+    orderBy,
 } from 'firebase/firestore';
+import CustomActions from './CustomActions';
 
 const Chat = ({ route, navigation, db, isConnected }) => {
     const { name, backgroundColor, id } = route.params;
@@ -105,7 +97,7 @@ const Chat = ({ route, navigation, db, isConnected }) => {
 
     //render action sheet
     const renderCustomActions = (props) => {
-        return <CustomActions {...props} />;
+        return <CustomActions storage={storage} {...props} />;
     };
 
     const renderCustomView = (props) => {
