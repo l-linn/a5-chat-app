@@ -25,7 +25,7 @@ Before you begin, ensure you have the following tools installed on your machine:
 1. **Clone the Repository:**
 
     ```bash
-    git clone https://github.com/alinatelychko/chat-app.git
+    git clone https://github.com/l-linn/a5-chat-app.git
     ```
 
 2. **Navigate to the Project Directory:**
