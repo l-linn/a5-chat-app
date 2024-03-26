@@ -58,10 +58,7 @@ Before you begin, ensure you have the following tools installed on your machine:
     - Obtain your Firebase configuration (apiKey, authDomain, projectId, storageBucket, messagingSenderId, appId) and update it in `Chat.js`.
 
 5. **Run the App:**
-
-    ```bash
-    npm start
-    ```
+   npm start
 
     - Follow the instructions to open the app on an emulator or physical device.
 
