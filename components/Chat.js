@@ -12,7 +12,7 @@ import {
 } from 'firebase/firestore';
 import CustomActions from './CustomActions';
 
-const Chat = ({ route, navigation, db, isConnected }) => {
+const Chat = ({ route, navigation, db, isConnected, storage }) => {
     const { name, backgroundColor, id } = route.params;
     const [messages, setMessages] = useState([]);
 
