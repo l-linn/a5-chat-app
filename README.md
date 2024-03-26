@@ -68,16 +68,6 @@ Before you begin, ensure you have the following tools installed on your machine:
 
     - Set up your Firebase Realtime Database in the Firebase Console.
     - Update the rules to allow read and write access:
-
-        ```json
-        {
-            "rules": {
-                ".read": "auth != null",
-                ".write": "auth != null"
-            }
-        }
-        ```
-
     - Update the Firebase configuration in `Chat.js` with your database credentials.
 
 2. **Firebase Storage:**
